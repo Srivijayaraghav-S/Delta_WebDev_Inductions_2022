@@ -210,7 +210,7 @@ function pad(value) { return value > 9 ? value : "0" + value; }
 }*/
 
 function insertScore() {
-    leaderboard = [0, 0, 0, 0, 0];
+    leaderboard = [];
     for (var i = 0; i < 5; i++) {
         leaderboard[i] = parseInt(localStorage.getItem(i));
     }
