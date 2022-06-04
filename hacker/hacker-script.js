@@ -3,6 +3,7 @@ var checks = [];
 var solution = [];
 const arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
     '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'];
+var leaderboard = [];
 var second = 0;
 var curr = 1;
 var score = 0;
@@ -20,24 +21,24 @@ const delayTime = 500;
 var audio = new Audio("onclick.wav");
 var audioEnd = new Audio("endgame.wav");
 var timerloop;
-/*for (var i = 0; i < 5; i++) {
+
+/*for(var i=0; i<5; i++) {
     localStorage.setItem(i, 0);
-}
-*/
+}*/
 timer.style.visibility = "hidden";
 start.addEventListener('click', () => {
-    timerloop = setInterval(function () {
-        secondstimer.innerHTML = pad(++second % 60);
-        minutestimer.innerHTML = pad(parseInt(second / 60, 10));
-        timer.style.visibility = "visible";
-        score -= second;
-    }, 1000);
     second = 0;
     score = 0;
     curr = 1;
     detectTableClicks();
     generateSolution();
     highlight();
+    timerloop = setInterval(function () {
+        secondstimer.innerHTML = pad(++second % 60);
+        minutestimer.innerHTML = pad(parseInt(second / 60, 10));
+        timer.style.visibility = "hidden";
+        score -= second;
+    }, 1000);
     start.style.visibility = "hidden";
 });
 
@@ -103,13 +104,13 @@ function detectTableClicks() {
                 timer.style.visibility = "hidden";
                 clearInterval(timerloop);
                 insertScore();
-                modalcontent.innerHTML = "<h4>Leaderboard<\h4> <h5>" + "1. " +
-                    localStorage.getItem(0) + "<br>" + "2. " +
-                    localStorage.getItem(1) + "<br>" + "3. " +
-                    localStorage.getItem(2) + "<br>" + "4. " +
-                    localStorage.getItem(3) + "<br>" + "5. " +
-                    localStorage.getItem(4) + "<\h5>";
-                scoreelement.style.visibility = "hidden";
+                modalcontent.innerHTML = "<h4>Leaderboard: <br>" +
+                    localStorage.getItem(0) + "<br>" +
+                    localStorage.getItem(1) + "<br>" +
+                    localStorage.getItem(2) + "<br>" +
+                    localStorage.getItem(3) + "<br>" +
+                    localStorage.getItem(4) + "<\h4>";
+                scoreelement.style.display = "hidden";
                 modal.style.display = "block";
                 audioEnd.play();
                 span.onclick = function () {
@@ -147,6 +148,7 @@ function checkGameOver() {
             localStorage.getItem(3) + "<br>" +
             localStorage.getItem(4) + "<br>" +
             "</p>Congrats! Go to next level!";
+        scoreelement.style.display = "hidden";
         modal.style.display = "block";
         span.onclick = function () {
             modal.style.display = "none";
@@ -208,17 +210,24 @@ function pad(value) { return value > 9 ? value : "0" + value; }
 }*/
 
 function insertScore() {
-    var temp;
-    localStorage.setItem(5, score);
-    for (i = 0; i < 6; i++) {
-        for (j = 0; j < 6 - i - 1; ++j) {
-            if (localStorage.getItem(j) < localStorage.getItem(j + 1)) {
-                temp = localStorage.getItem(j);
-                localStorage.setItem(j, localStorage.getItem(j + 1));
-                localStorage.setItem(j + 1, temp);
-            }
-        }
+    leaderboard = [];
+    for (var i = 0; i < 5; i++) {
+        leaderboard[i] = parseInt(localStorage.getItem(i));
     }
+    console.log(leaderboard);
+    leaderboard.push(score);
+    console.log(leaderboard);
+    //leaderboard = leaderboard.sort();
+    leaderboard = leaderboard.sort(function (a, b) {
+        return a - b;
+    });
+    console.log(leaderboard);
+    leaderboard = leaderboard.reverse();
+    console.log(leaderboard);
+    for (var i = 0; i < 5; i++) {
+        localStorage.setItem(i, leaderboard[i].toString());
+    }
+    return;
 }
 
 /*var cells = document.querySelectorAll("#t td");
