@@ -20,22 +20,24 @@ const delayTime = 500;
 var audio = new Audio("onclick.wav");
 var audioEnd = new Audio("endgame.wav");
 var timerloop;
-for (var i = 0; i < 5; i++) {
+/*for (var i = 0; i < 5; i++) {
     localStorage.setItem(i, 0);
 }
-
+*/
+timer.style.visibility = "hidden";
 start.addEventListener('click', () => {
+    timerloop = setInterval(function () {
+        secondstimer.innerHTML = pad(++second % 60);
+        minutestimer.innerHTML = pad(parseInt(second / 60, 10));
+        timer.style.visibility = "visible";
+        score -= second;
+    }, 1000);
     second = 0;
     score = 0;
     curr = 1;
     detectTableClicks();
     generateSolution();
-    timer.style.visibility = "visible";
     highlight();
-    timerloop = setInterval(function () {
-        secondstimer.innerHTML = pad(++second % 60);
-        minutestimer.innerHTML = pad(parseInt(second / 60, 10));
-    }, 1000);
     start.style.visibility = "hidden";
 });
 
@@ -101,12 +103,13 @@ function detectTableClicks() {
                 timer.style.visibility = "hidden";
                 clearInterval(timerloop);
                 insertScore();
-                modalcontent.innerHTML = "<h4>Leaderboard <br>" +
-                    localStorage.getItem(0) + "<br>" +
-                    localStorage.getItem(1) + "<br>" +
-                    localStorage.getItem(2) + "<br>" +
-                    localStorage.getItem(3) + "<br>" +
-                    localStorage.getItem(4) + "<\h4>";
+                modalcontent.innerHTML = "<h4>Leaderboard<\h4> <h5>" + "1. " +
+                    localStorage.getItem(0) + "<br>" + "2. " +
+                    localStorage.getItem(1) + "<br>" + "3. " +
+                    localStorage.getItem(2) + "<br>" + "4. " +
+                    localStorage.getItem(3) + "<br>" + "5. " +
+                    localStorage.getItem(4) + "<\h5>";
+                scoreelement.style.visibility = "hidden";
                 modal.style.display = "block";
                 audioEnd.play();
                 span.onclick = function () {
@@ -163,7 +166,7 @@ function checkClicks(id) {
     if (checks[0] === id) {
         checks.shift();
         console.log(checks);
-        score = score + 1;
+        score = score + 100;
         scoreelement.innerHTML = "Score: " + score;
         checkGameOver();
         return true;
