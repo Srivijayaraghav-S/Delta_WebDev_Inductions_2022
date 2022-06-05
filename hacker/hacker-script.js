@@ -4,6 +4,7 @@ var solution = [];
 const arr = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
     '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36'];
 var leaderboard = [];
+var c = 0;
 var second = 0;
 var curr = 1;
 var score = 0;
@@ -18,26 +19,29 @@ var timer = document.getElementById("timer");
 var secondstimer = document.getElementById("seconds");
 var minutestimer = document.getElementById("minutes");
 const delayTime = 500;
+var x = ["1", "2", "3", "4", "5"];
 var audio = new Audio("onclick.wav");
 var audioEnd = new Audio("endgame.wav");
 var timerloop;
+var z = '';
 
-/*for(var i=0; i<5; i++) {
+/*for (var i = 0; i < 5; i++) {
     localStorage.setItem(i, 0);
-}*/
-timer.style.visibility = "hidden";
+}
+*/
 start.addEventListener('click', () => {
     second = 0;
     score = 0;
     curr = 1;
+    console.log("Yes");
+    console.log(leaderboard);
     detectTableClicks();
     generateSolution();
+    timer.style.visibility = "visible";
     highlight();
     timerloop = setInterval(function () {
         secondstimer.innerHTML = pad(++second % 60);
         minutestimer.innerHTML = pad(parseInt(second / 60, 10));
-        timer.style.visibility = "hidden";
-        score -= second;
     }, 1000);
     start.style.visibility = "hidden";
 });
@@ -110,7 +114,6 @@ function detectTableClicks() {
                     localStorage.getItem(2) + "<br>" +
                     localStorage.getItem(3) + "<br>" +
                     localStorage.getItem(4) + "<\h4>";
-                scoreelement.style.display = "hidden";
                 modal.style.display = "block";
                 audioEnd.play();
                 span.onclick = function () {
@@ -148,7 +151,6 @@ function checkGameOver() {
             localStorage.getItem(3) + "<br>" +
             localStorage.getItem(4) + "<br>" +
             "</p>Congrats! Go to next level!";
-        scoreelement.style.display = "hidden";
         modal.style.display = "block";
         span.onclick = function () {
             modal.style.display = "none";
@@ -168,7 +170,7 @@ function checkClicks(id) {
     if (checks[0] === id) {
         checks.shift();
         console.log(checks);
-        score = score + 100;
+        score = score + 1;
         scoreelement.innerHTML = "Score: " + score;
         checkGameOver();
         return true;
@@ -210,9 +212,13 @@ function pad(value) { return value > 9 ? value : "0" + value; }
 }*/
 
 function insertScore() {
-    leaderboard = [];
     for (var i = 0; i < 5; i++) {
-        leaderboard[i] = parseInt(localStorage.getItem(i));
+        if (localStorage.getItem(i) !== null) {
+            leaderboard[i] = parseInt(localStorage.getItem(i));
+        }
+        else {
+            leaderboard[i] = 0;
+        }
     }
     console.log(leaderboard);
     leaderboard.push(score);
@@ -229,16 +235,3 @@ function insertScore() {
     }
     return;
 }
-
-/*var cells = document.querySelectorAll("#t td");
-for (var i = 0; i < cells.length; i++) {
-    cells[i].addEventListener("click", function () {
-        cells[i].classList.add("clickon");
-        setTimeout(function () {
-            this.classList.add("clickoff");
-        }, 500)
-        this.classList.add("clickoff");
-        this.classList.remove("clickon");
-        checkClicks(this.id);
-    });
-}*/
