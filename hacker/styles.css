@@ -204,29 +204,24 @@ p {
 
 #timer {
     font-size: 30px;
-    color: green;
+    color: lightblue;
     margin-left: 47%;
     margin-right: 50%;
     padding-bottom: 2%;
     display: hidden;
 }
 
-#colon {
-    display: hidden;
-}
 
 #addonclick {
     color: green;
 }
 
+
+
 #timerdisplay {
     font-size: 30px;
-    color: green;
+    color: lightblue;
     margin-left: 47%;
     margin-right: 50%;
     padding-bottom: 2%;
-}
-
-#newtimer {
-    background-color: yellow;
 }

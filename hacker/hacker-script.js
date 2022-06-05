@@ -19,6 +19,7 @@ var timer = document.getElementById("timer");
 var secondstimer = document.getElementById("seconds");
 var minutestimer = document.getElementById("minutes");
 const delayTime = 500;
+var col = document.getElementById("colon");
 var x = ["1", "2", "3", "4", "5"];
 var audio = new Audio("onclick.wav");
 var audioEnd = new Audio("endgame.wav");
@@ -37,12 +38,12 @@ start.addEventListener('click', () => {
     console.log(leaderboard);
     detectTableClicks();
     generateSolution();
-    timer.style.visibility = "visible";
     highlight();
     timerloop = setInterval(function () {
         secondstimer.innerHTML = pad(++second % 60);
         minutestimer.innerHTML = pad(parseInt(second / 60, 10));
     }, 1000);
+    timer.style.visibility = "visible";
     start.style.visibility = "hidden";
 });
 
@@ -106,9 +107,11 @@ function detectTableClicks() {
             await sleep(delayTime);
             if (!checkClicks("" + this.id)) {
                 timer.style.visibility = "hidden";
+                scoreelement.style.visibility = "hidden";
+                score = score - second;
                 clearInterval(timerloop);
                 insertScore();
-                modalcontent.innerHTML = "<h4>Leaderboard: <br>" +
+                modalcontent.innerHTML = "<h4>Leaderboard<br>" +
                     localStorage.getItem(0) + "<br>" +
                     localStorage.getItem(1) + "<br>" +
                     localStorage.getItem(2) + "<br>" +
@@ -140,7 +143,9 @@ function checkGameOver() {
         return;
     }
     if (curr === 36) {
-        timer.style.display = "none";
+        timer.style.display = "hidden";
+        scoreelement.style.display = "hidden";
+        score = score - second;
         clearInterval(timerloop);
         insertScore();
         second = 0;
@@ -170,7 +175,7 @@ function checkClicks(id) {
     if (checks[0] === id) {
         checks.shift();
         console.log(checks);
-        score = score + 1;
+        score = score + 100;
         scoreelement.innerHTML = "Score: " + score;
         checkGameOver();
         return true;
