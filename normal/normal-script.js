@@ -72,6 +72,7 @@ function detectTableClicks() {
             this.classList.remove("clickoff");
             await sleep(delayTime);
             if (!checkClicks("" + this.id)) {
+                scoreelement.style.visibility = "hidden";
                 modalcontent.innerHTML = "Score: " + score;
                 modal.style.display = "block";
                 span.onclick = function () {
