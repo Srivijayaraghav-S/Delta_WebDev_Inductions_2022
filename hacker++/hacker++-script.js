@@ -85,6 +85,7 @@ function arraychoice() {
             this.classList.add("clickoff");
             this.classList.remove("clickon");
             this.classList.remove("clickoff");
+            await sleep(delayTime);
             ans.push(this.id);
             console.log(ans);
         })
