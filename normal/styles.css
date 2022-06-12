@@ -12,13 +12,13 @@ h1 {
     font-size: 500%;
 }
 
-#score {
-    text-align: right;
+/*#score {
+    text-align: center;
     position: absolute;
     top: 32.5%;
     right: 5%;
     color: greenyellow;
-}
+}*/
 
 table {
     table-layout: fixed;
@@ -185,4 +185,11 @@ p {
 .button-center {
     text-align: center;
 
+}
+
+@media only screen and (max-width: 700px) {
+    h1 {
+        text-align: center;
+        font-size: 60px;
+    }
 }
